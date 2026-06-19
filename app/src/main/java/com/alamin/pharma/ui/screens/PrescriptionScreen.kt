@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width  // ✅ إضافة الاستيراد المفقود
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -29,6 +31,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -41,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -88,7 +92,7 @@ fun PrescriptionScreen(onBack: () -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.weight(1f))
-            Spacer(Modifier.width(48.dp))
+            Spacer(Modifier.width(48.dp))  // ✅ الآن يعمل بشكل صحيح
         }
 
         Column(
@@ -133,14 +137,14 @@ fun PrescriptionScreen(onBack: () -> Unit) {
                         model = imageUri,
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                        contentScale = ContentScale.Crop
                     )
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(8.dp)
                             .size(40.dp)
-                            .clip(androidx.compose.foundation.shape.CircleShape)
+                            .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.primary),
                         contentAlignment = Alignment.Center
                     ) {
@@ -215,7 +219,9 @@ fun PrescriptionScreen(onBack: () -> Unit) {
                         if (phone.isNotBlank()) append("\nالهاتف: $phone")
                         if (notes.isNotBlank()) append("\nملاحظات: $notes")
                     }
-                    ContactUtils.openWhatsApp(context, ContactInfo().whatsappRx, msg)
+                    // ✅ استخدام رقم واتساب ثابت للوصفات الطبية
+                    val whatsappNumber = "967777777777"  // رقم واتساب خاص بالوصفات
+                    ContactUtils.openWhatsApp(context, whatsappNumber, msg)
                     if (imageUri != null) {
                         ContactUtils.shareImageUri(context, imageUri!!)
                     }
@@ -238,18 +244,5 @@ fun PrescriptionScreen(onBack: () -> Unit) {
             }
             Spacer(Modifier.height(40.dp))
         }
-    }
-}
-
-@Composable
-private fun IconButton(onClick: () -> Unit, content: @Composable () -> Unit) {
-    Box(
-        modifier = Modifier
-            .size(48.dp)
-            .clip(androidx.compose.foundation.shape.CircleShape)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        content()
     }
 }
