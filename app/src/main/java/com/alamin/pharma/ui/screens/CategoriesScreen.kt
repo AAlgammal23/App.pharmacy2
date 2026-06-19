@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items  // ✅ استيراد items الخاصة بـ LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -98,13 +101,13 @@ fun CategoriesScreen(
 
         // ===== شبكة الأصناف الفرعية =====
         LazyVerticalGrid(
-            columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(3),
+            columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            items(subsForMain) { sub ->
+            items(subsForMain) { sub ->  // ✅ الآن تعمل بشكل صحيح
                 SubCategoryCard(sub = sub, onClick = { onSubcategoryClick(sub.id) })
             }
         }
@@ -186,10 +189,4 @@ private fun SubCategoryCard(sub: SubCategory, onClick: () -> Unit) {
     }
 }
 
-// helper: grid items
-private fun androidx.compose.foundation.lazy.LazyGridScope.items(
-    items: List<SubCategory>,
-    content: @Composable (SubCategory) -> Unit
-) {
-    items(items.size) { i -> content(items[i]) }
-}
+// ❌ تم حذف دالة items المخصصة لأنها غير ضرورية وتتعارض مع الدالة المدمجة
