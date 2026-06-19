@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext  // ✅ إضافة الاستيراد المفقود
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,7 +58,7 @@ fun SearchScreen(
     onAddToCart: (Product) -> Unit,
     onProductClick: (String) -> Unit
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current  // ✅ الآن يعمل بشكل صحيح
     var query by remember { mutableStateOf("") }
     var selectedMain by remember { mutableStateOf<String?>(null) }
     val allProducts by vm.products.collectAsState()
