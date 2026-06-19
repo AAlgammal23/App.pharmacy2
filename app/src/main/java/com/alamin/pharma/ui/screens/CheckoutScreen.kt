@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext  // ✅ إضافة الاستيراد المفقود
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +59,7 @@ fun CheckoutScreen(
     onBack: () -> Unit,
     onOrderComplete: () -> Unit
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current  // ✅ الآن يعمل بشكل صحيح
     val cart by vm.cart.collectAsState()
     val total = vm.cartTotal()
     val isOnline by vm.isOnline.collectAsState()
@@ -255,13 +256,14 @@ fun CheckoutScreen(
                             if (ok) {
                                 success = true
                                 message = msg
-                                // إرسال نسخة عبر واتساب (اختياري)
+                                // ✅ إرسال نسخة عبر واتساب (استخدام رقم ثابت)
                                 val orderText = buildString {
                                     append("طلب جديد من تطبيق صيدلية الأمين الحديثة:\n")
                                     append("الاسم: $name\nالهاتف: $phone\nالعنوان: $fullAddress, $city")
                                     if (notes.isNotBlank()) append("\nملاحظات: $notes")
                                 }
-                                ContactUtils.openWhatsApp(context, com.alamin.pharma.data.ContactInfo().whatsapp, orderText)
+                                val whatsappNumber = "967777777777"  // رقم واتساب ثابت
+                                ContactUtils.openWhatsApp(context, whatsappNumber, orderText)
                             } else {
                                 message = msg
                             }
