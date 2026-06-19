@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.MedicalServices
 import androidx.compose.material.icons.outlined.Send
-import androidx.compose.material.icons.outlined.WhatsApp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -213,8 +212,8 @@ fun ConsultationScreen(
                     if (phone.isNotBlank()) append("\nالهاتف: $phone")
                     append("\n\nالاستفسار:\n$symptoms")
                 }
-                // ✅ استخدام رقم واتساب ثابت مؤقتاً
-                val whatsappNumber = "967777777777"  // يمكنك تغيير الرقم هنا
+                // ✅ استخدام رقم واتساب ثابت
+                val whatsappNumber = "967777777777"  // غيّر للرقم الفعلي للصيدلية
                 ContactUtils.openWhatsApp(context, whatsappNumber, msg)
             },
             enabled = canSubmit,
