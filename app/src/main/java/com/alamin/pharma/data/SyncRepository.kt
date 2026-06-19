@@ -14,9 +14,11 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.channels.awaitClose  // ✅ تم إضافة هذا الاستيراد
 
 /**
  * مستودع هجين:
@@ -194,13 +196,13 @@ class SyncRepository(context: Context) {
     }
 
     // ============== معلومات التواصل (مباشرة من Firestore) ==============
-    fun contactInfoFlow(): Flow<ContactInfo> = kotlinx.coroutines.flow.callbackFlow {
+    fun contactInfoFlow(): Flow<ContactInfo> = callbackFlow {
         val reg = firestore.collection("settings").document("contact")
             .addSnapshotListener { snap, err ->
                 if (err != null) { close(err); return@addSnapshotListener }
                 trySend(snap?.toObject(ContactInfo::class.java) ?: ContactInfo())
             }
-        awaitClose { reg.remove() }
+        awaitClose { reg.remove() }  // ✅ الآن يعمل بشكل صحيح
     }
 }
 
