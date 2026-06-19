@@ -45,7 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext  // ✅ إضافة الاستيراد المفقود
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,7 +59,7 @@ fun CheckoutScreen(
     onBack: () -> Unit,
     onOrderComplete: () -> Unit
 ) {
-    val context = LocalContext.current  // ✅ الآن يعمل بشكل صحيح
+    val context = LocalContext.current
     val cart by vm.cart.collectAsState()
     val total = vm.cartTotal()
     val isOnline by vm.isOnline.collectAsState()
@@ -70,7 +70,7 @@ fun CheckoutScreen(
     var fullAddress by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("إب") }
     var notes by remember { mutableStateOf("") }
-    var paymentMethod by remember { mutableStateOf("cod") }  // cod = عند الاستلام
+    var paymentMethod by remember { mutableStateOf("cod") }
     var submitting by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf<String?>(null) }
     var success by remember { mutableStateOf(false) }
@@ -144,7 +144,7 @@ fun CheckoutScreen(
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(
-                                modifier = Modifier.size(28.dp).clip(androidx.compose.foundation.shape.CircleShape).background(Color(0xFFE6F7F4))
+                                modifier = Modifier.size(28.dp).clip(CircleShape).background(Color(0xFFE6F7F4))
                                     .clickable { vm.updateCartQty(item.productId, item.qty - 1) },
                                 contentAlignment = Alignment.Center
                             ) { Icon(Icons.Filled.Remove, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp)) }
@@ -152,7 +152,7 @@ fun CheckoutScreen(
                             Text("${item.qty}", fontWeight = FontWeight.Bold)
                             Spacer(Modifier.width(8.dp))
                             Box(
-                                modifier = Modifier.size(28.dp).clip(androidx.compose.foundation.shape.CircleShape).background(MaterialTheme.colorScheme.primary)
+                                modifier = Modifier.size(28.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary)
                                     .clickable { vm.updateCartQty(item.productId, item.qty + 1) },
                                 contentAlignment = Alignment.Center
                             ) { Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp)) }
@@ -256,13 +256,13 @@ fun CheckoutScreen(
                             if (ok) {
                                 success = true
                                 message = msg
-                                // ✅ إرسال نسخة عبر واتساب (استخدام رقم ثابت)
+                                // ✅ رقم الطلبات
                                 val orderText = buildString {
                                     append("طلب جديد من تطبيق صيدلية الأمين الحديثة:\n")
                                     append("الاسم: $name\nالهاتف: $phone\nالعنوان: $fullAddress, $city")
                                     if (notes.isNotBlank()) append("\nملاحظات: $notes")
                                 }
-                                val whatsappNumber = "967777777777"  // رقم واتساب ثابت
+                                val whatsappNumber = "784332800"
                                 ContactUtils.openWhatsApp(context, whatsappNumber, orderText)
                             } else {
                                 message = msg
