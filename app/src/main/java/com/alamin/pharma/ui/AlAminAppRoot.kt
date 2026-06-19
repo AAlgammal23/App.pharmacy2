@@ -45,6 +45,10 @@ import com.alamin.pharma.ui.screens.ProductDetailsScreen
 import com.alamin.pharma.ui.screens.ReminderScreen
 import com.alamin.pharma.ui.screens.SearchScreen
 import com.alamin.pharma.ui.screens.SubCategoryProductsScreen
+import com.alamin.pharma.ui.screens.FavoritesScreen   // ✅ تمت الإضافة
+import com.alamin.pharma.ui.screens.OrdersScreen     // ✅ تمت الإضافة
+import com.alamin.pharma.ui.screens.AddressesScreen  // ✅ تمت الإضافة
+import com.alamin.pharma.ui.screens.BalanceScreen    // ✅ تمت الإضافة
 import com.google.firebase.auth.FirebaseAuth
 
 sealed class Tab(val route: String, val icon: ImageVector, val labelRes: Int) {
