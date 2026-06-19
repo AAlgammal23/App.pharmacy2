@@ -1,6 +1,7 @@
 package com.alamin.pharma.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip  // ✅ إضافة الاستيراد المفقود
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,7 +100,7 @@ fun OrdersScreen(vm: PharmacyViewModel, onBack: () -> Unit) {
         } else {
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(list) { order ->
                     OrderCard(order)
@@ -111,26 +114,26 @@ fun OrdersScreen(vm: PharmacyViewModel, onBack: () -> Unit) {
 private fun OrderCard(order: Order) {
     val statusText = runCatching { OrderStatus.valueOf(order.status).ar }.getOrDefault(order.status)
     val statusColor = when (order.status) {
-        "DELIVERED" -> androidx.compose.ui.graphics.Color(0xFF2BB673)
-        "CANCELLED" -> androidx.compose.ui.graphics.Color.Red
+        "DELIVERED" -> Color(0xFF2BB673)
+        "CANCELLED" -> Color.Red
         else -> MaterialTheme.colorScheme.tertiary
     }
     Card(
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = androidx.compose.ui.graphics.Color.White),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(1.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text("طلب #${order.id.take(8)}", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))  // ✅ الآن يعمل بشكل صحيح
                         .background(statusColor.copy(alpha = 0.2f))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
