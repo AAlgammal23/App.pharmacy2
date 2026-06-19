@@ -213,7 +213,9 @@ fun ConsultationScreen(
                     if (phone.isNotBlank()) append("\nالهاتف: $phone")
                     append("\n\nالاستفسار:\n$symptoms")
                 }
-                ContactUtils.openWhatsApp(context, ContactInfo().whatsapp, msg)
+                // ✅ استخدام رقم واتساب ثابت مؤقتاً
+                val whatsappNumber = "967777777777"  // يمكنك تغيير الرقم هنا
+                ContactUtils.openWhatsApp(context, whatsappNumber, msg)
             },
             enabled = canSubmit,
             modifier = Modifier
